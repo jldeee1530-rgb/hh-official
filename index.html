@@ -1,0 +1,2077 @@
+
+
+<div id="websiteContent">
+
+</div>
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+
+        <!-- Background Image -->
+        <img src="assets/img/termscondition.png" alt="Terms & Conditions" class="terms-image">
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <button id="disagreeBtn" class="btn-disagree">DISAGREE</button>
+            <button id="agreeBtn" class="btn-agree">AGREE</button>
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const termsModal = document.getElementById("termsModal");
+
+    // Check if user already agreed before
+    if (localStorage.getItem("termsAccepted") === "true") {
+        termsModal.style.display = "none";
+    } else {
+        termsModal.style.display = "flex"; // Show modal
+    }
+
+    document.getElementById("agreeBtn").addEventListener("click", function () {
+
+        // Save consent permanently
+        localStorage.setItem("termsAccepted", "true");
+
+        // Hide modal
+        termsModal.style.display = "none";
+    });
+
+    document.getElementById("disagreeBtn").addEventListener("click", function () {
+
+        alert("You must agree to continue.");
+
+        // Redirect away
+        window.location.href = "https://www.google.com";
+    });
+
+});
+</script>
+</script>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Hofileña Hospital</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Hofileña Hospital
+  * Template URL: https://bootstrapmade.com/Hofileña Hospital-bootstrap-business-template/
+  * Updated: Aug 30 2025 with Bootstrap v5.3.8
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+<!-- SCHEDULE POPUP -->
+<div id="schedulePopup" class="schedule-popup">
+  <div class="schedule-popup-box">
+
+    <button class="schedule-close" onclick="closeSchedulePopup()" aria-label="Close">
+      &times;
+    </button>
+
+    <button class="schedule-arrow schedule-prev" onclick="changeSchedule(-1)">
+      &#10094;
+    </button>
+
+    <div class="schedule-image-wrap">
+      <img id="scheduleImage"
+           src="assets/img/opd-schedule.png"
+           alt="Hofilena Hospital Schedule">
+    </div>
+
+    <button class="schedule-arrow schedule-next" onclick="changeSchedule(1)">
+      &#10095;
+    </button>
+
+    <div class="schedule-popup-footer">
+      <span id="scheduleTitle">OPD CLINICS SCHEDULE</span>
+
+      <div class="schedule-dots">
+        <span class="schedule-dot active" onclick="showSchedule(0)"></span>
+        <span class="schedule-dot" onclick="showSchedule(1)"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.schedule-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.82);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.schedule-popup.show {
+  display: flex;
+}
+
+.schedule-popup-box {
+  position: relative;
+  width: min(95vw, 900px);
+  max-height: 94vh;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 20px 70px rgba(0,0,0,0.6);
+  animation: schedulePopupIn 0.35s ease;
+}
+
+.schedule-image-wrap {
+  width: 100%;
+  max-height: 82vh;
+  overflow: auto;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.schedule-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.schedule-close {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: #b22222;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 40px;
+}
+
+.schedule-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 48px;
+  height: 70px;
+  background: rgba(18, 72, 34, 0.9);
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.schedule-prev {
+  left: 20px;
+  border-radius: 0 10px 10px 0;
+}
+
+.schedule-next {
+  right: 20px;
+  border-radius: 10px 0 0 10px;
+}
+
+.schedule-popup-footer {
+  padding: 12px 5px 3px;
+  text-align: center;
+  color: #164a26;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.schedule-dots {
+  margin-top: 8px;
+}
+
+.schedule-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  background: #b5b5b5;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.schedule-dot.active {
+  background: #17612f;
+  transform: scale(1.2);
+}
+
+@keyframes schedulePopupIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .schedule-popup {
+    padding: 10px;
+  }
+
+  .schedule-popup-box {
+    width: 100%;
+    padding: 7px;
+  }
+
+  .schedule-arrow {
+    width: 38px;
+    height: 55px;
+    font-size: 25px;
+  }
+
+  .schedule-prev {
+    left: 8px;
+  }
+
+  .schedule-next {
+    right: 8px;
+  }
+
+  .schedule-close {
+    top: -10px;
+    right: -5px;
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+  }
+}
+</style>
+
+<script>
+const schedules = [
+  {
+    image: "assets/img/opd-schedule.png",
+    title: "OPD CLINICS SCHEDULE"
+  },
+  {
+    image: "assets/img/rod-schedule-august-2026.png",
+    title: "ROD SCHEDULE – AUGUST 2026"
+  }
+];
+
+let currentSchedule = 0;
+
+function showSchedule(index) {
+  currentSchedule = (index + schedules.length) % schedules.length;
+
+  document.getElementById("scheduleImage").src =
+    schedules[currentSchedule].image;
+
+  document.getElementById("scheduleTitle").textContent =
+    schedules[currentSchedule].title;
+
+  document.querySelectorAll(".schedule-dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === currentSchedule);
+  });
+}
+
+function changeSchedule(direction) {
+  showSchedule(currentSchedule + direction);
+}
+
+function closeSchedulePopup() {
+  document.getElementById("schedulePopup").classList.remove("show");
+}
+
+/* AUTOMATICALLY OPEN WHEN WEBSITE LOADS */
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("schedulePopup").classList.add("show");
+});
+
+/* Close when clicking outside the schedule */
+document.getElementById("schedulePopup").addEventListener("click", function(e) {
+  if (e.target === this) {
+    closeSchedulePopup();
+  }
+});
+</script>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top">
+
+    <div class="topbar d-flex align-items-center dark-background">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:hofilena.hr@gmail.com">hofilena.hr@gmail.com</a></i>
+          <i class="bi bi-phone d-flex align-items-center ms-4"><span>0933 823 9449</span></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+          <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div><!-- End Top Bar -->
+
+    <div class="branding d-flex align-items-cente">
+
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <!-- Uncomment the line below if you also wish to use an image logo -->
+           <img src="assets/img/logo-assetHH.png" alt=""> 
+          <h1 class="sitename">Hofileña Hospital</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Healthcare Services</a></li>
+            <li><a href="#portfolio">Doctors</a></li>
+            <li><a href="#team">Meet Our Team</a></li>
+            <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="ctscan.html" class="details-link" title="View Project Details">CT-Scan</a></li>
+                <li class="dropdown"><a href="#"><span>Ultrasound</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul class="mega-dropdown">
+                    <li><a href="#">Breast Ultrasound</a></li>
+                    <li><a href="#">Chest Ultrasound</a></li>
+                    <li><a href="#">Guided Abdomen Paracentesis UTZ</a></li>
+                    <li><a href="#">Guided IJ Insertion UTZ</a></li>
+                    <li><a href="#">Guided Thoracentesis</a></li>
+                    <li><a href="#">HBT Ultrasound</a></li>
+                    <li><a href="#">KUB & PROSTATE Ultrasound</a></li>
+                    <li><a href="#">KUB Ultrasound</a></li>
+                    <li><a href="#">Lower Abdomen Ultrasound</a></li>
+                    <li><a href="#">On-call Portable Suite Room</a></li>
+                    <li><a href="#">On-call Portable Ward Room</a></li>
+                    <li><a href="#">On-call Ultrasound</a></li>
+                    <li><a href="#">Pelvic Ultrasound</a></li>
+                    <li><a href="#">Pelvic Ultrasound with Photo</a></li>
+                    <li><a href="#">Scrotal Ultrasound</a></li>
+                    <li><a href="#">Single Organ Ultrasound</a></li>
+                    <li><a href="#">T/Tube Cholangiogram</a></li>
+                    <li><a href="#">Thyroid Gland Ultrasound</a></li>
+                    <li><a href="#">Transectal Ultrasound</a></li>
+                    <li><a href="#">TVS Ultrasound</a></li>
+                    <li><a href="#">Twin UTZ</a></li>
+                    <li><a href="#">Ultrasound Guided Pigtail Cat-Insertion</a></li>
+                    <li><a href="#">Upper Abdomen Ultrasound</a></li>
+                    <li><a href="#">Whole Abdomen Ultrasound</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Delivery Services</a></li>
+                <li><a href="#">Digital X-ray</a></li>
+                <li><a href="#">Emergency Services</a></li>
+                <li><a href="#">General Surgery</a></li>
+                <li><a href="#">Hemodialysis</a></li>
+                <li><a href="#">Internal Medicine</a></li>
+                <li><a href="#">Laboratory</a></li>
+                <li><a href="#">Laparoscopy</a></li>
+                <li><a href="#">Newborn Hearing Screening Test</a></li>
+                <li><a href="#">Ob-gyne</a></li>
+                <li><a href="#">Operating Services</a></li>
+                <li><a href="#">Pediatrics</a></li>
+                <li><a href="#">Pharmacy</a></li>
+              </ul>
+            </li>
+         <li><a href="#">Check Doctors Schedule</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+      </div>
+
+    </div>
+
+  </header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+    <div class="content" data-aos="fade-up">
+        <h2>Hofileña Facts and News</h2>
+    </div>
+<body>
+
+<section id="featured-services" class="featured-services section light-background">
+
+
+
+    <div class="slider" data-aos="fade-up">
+        <figure id="sliderFigure">
+            <div class="slide">
+                <img src="assets/img/clients/clients-9.jpg" alt="News 1">
+            </div>
+
+            <div class="slide">
+                <img src="assets/img/clients/FLOW CHART.jpg" alt="News 2">
+            </div>
+
+            <div class="slide">
+                <img src="assets/img/clients/clients-10.png" alt="News 3">
+            </div>
+
+            <div class="slide">
+                <img src="assets/img/clients/clients-11.png" alt="News 4">
+            </div>
+        </figure>
+
+        <button class="prev" onclick="prevSlide()">❮</button>
+        <button class="next" onclick="nextSlide()">❯</button>
+    </div>
+
+</section>
+
+<script>
+const figure = document.getElementById("sliderFigure");
+const slides = document.querySelectorAll(".slide");
+const totalSlides = slides.length;
+
+let currentSlide = 0;
+
+function updateSlide() {
+    figure.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlide();
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlide();
+}
+
+// Auto-slide every 5 seconds
+setInterval(nextSlide, 30000);
+</script>
+
+</body>
+</html>
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <div class="hero-content">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="content">
+                <h1>Hofileña Hospital | Your Health, Our Priority</h1>
+                <p>Providing compassionate, quality healthcare since 1988. Guided by faith, integrity & service, we are more than a hospital-we are a community committed to your well-being.</p>
+                <div class="hero-actions">
+    <button class="start-btn">Start Your Journey</button>
+
+    <a href="#" class="watch-story" onclick="openVideoPopup(); return false;">
+    <span class="play-icon">▶</span>
+    Watch Our Story
+</a>
+</div>
+<div id="videoPopup" class="video-popup"> 
+    <div class="video-popup-content">
+        <!-- Close Button -->
+        <span class="close-popup" onclick="closeVideoPopup()">&times;</span>
+
+        <!-- Video Player -->
+        <video id="ourStoryVideo" controls>
+            <source src="assets/img/ourstory.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+              </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="hero-image">
+                <img src="assets/img/about/assets1.jpg" alt="Corporate Business" class="img-fluid">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-features">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-item">
+                  <div class="icon">
+                    <i class="bi bi-heart"></i>
+                  </div>
+                  <h4>Compassion</h4>
+                  <p>Genuine care and empathy for every patient, treating individuals with kindness, dignity, and understanding.</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-item">
+                  <div class="icon">
+                    <i class="bi bi-shield-check"></i>
+                  </div>
+                  <h4>Integrity</h4>
+                  <p>Commitment to honesty, ethical practices, and transparency in all medical and administrative services.</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-item">
+                  <div class="icon">
+                    <i class="bi bi-graph-up"></i>
+                  </div>
+                  <h4>Service-Oriented Excellence</h4>
+                  <p>Dedication to delivering high-quality healthcare that prioritizes patient safety, comfort, and satisfaction.</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="feature-item">
+                  <div class="icon">
+                  <i class="bi bi-people"></i>
+                  </div>
+                  <h4>Community Commitment</h4>
+                  <p>A strong focus on improving the health and well-being of Pagadian City and nearby municipalities, building trust and long-term relationships.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  <div class="container section-title" data-aos="fade-up">
+        <h2>Hofileña Hospital</h2>
+        <p>Location Mark</p>
+      </div>
+      </div>
+ 
+    
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4894.512500780358!2d123.4347751750054!3d7.825105092195785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32541809cc150405%3A0x63825891a8e3b19d!2sHofile%C3%B1a%20Clinic!5e1!3m2!1sfil!2sph!4v1780110527659!5m2!1sfil!2sph" data-aos="fade-up" width="2000" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<!-- Popup Image Viewer -->
+<div id="imagePopup" class="popup">
+  <span class="close" onclick="closeImage()">&times;</span>
+  <img class="popup-content" id="popupImg">
+</div>
+
+
+<script>
+function openImage(src) {
+  document.getElementById("imagePopup").style.display = "flex";
+  document.getElementById("popupImg").src = src;
+}
+
+function closeImage() {
+  document.getElementById("imagePopup").style.display = "none";
+}
+</script>
+
+    </section><!-- /Featured Services Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Mission</h2>
+        <p>Find Out More About Us</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="content">
+              <h2>To Deliver compassionate and cost effective</h2>
+              <p class="lead">health care services to the people of Pagadian City and the nearby municipalities.</p>
+
+              <div class="description">
+               <p style="text-align: justify;">To deliver compassionate, accessible, and cost-effective healthcare services that uphold the dignity, hope, and well-being of every individual in Pagadian City and its neighboring municipalities. We are committed to providing quality medical care with integrity, empathy, and excellence, ensuring that every patient receives not only treatment, but also comfort, respect, and genuine compassion.</p>
+
+                <p style="text-align: justify;">Through dedicated service, modern healthcare practices, and a heart for the community, we strive to become a trusted partner in building healthier families, stronger communities, and a brighter future for all.</p>
+              </div>
+
+              <div class="cta-section" data-aos="fade-up" data-aos-delay="300">
+                <a href="#team" class="btn-link">Meet Our Team <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+            <div class="image-container">
+              <img src="assets/img/about/mission.jpg" alt="About Us" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+      <section id="about" class="about section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Vision</h2>
+        <p>Find Out More About Us</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="content">
+              <h2>To provide recruitment, hiring and retention of diverse</h2>
+              <p style="text-align: justify;" class="lead">
+well performing workforce and foster healthy,
+safe and productive work environment
+to maximize asset, its employees
+and organizational potential</p>
+
+              <div class="description">
+                 <p style="text-align: justify;">To become a leading and trusted healthcare institution in Pagadian City, recognized for excellence in compassionate patient care, professional integrity, and outstanding service to the community. Pagadian City Hospital envisions a future where every individual, regardless of status in life, has access to quality, affordable, and patient-centered healthcare delivered with dignity, respect, and genuine compassion.</p>
+
+                <p style="text-align: justify;">We aspire to build and sustain a highly skilled, diverse, and dedicated workforce that is empowered through continuous learning, teamwork, and innovation. By fostering a healthy, safe, and inspiring work environment, we aim to strengthen the potential of our employees and maximize organizational growth for the benefit of the people we serve.
+
+Guided by our commitment to healing and service, we strive to be a symbol of hope, trust, and excellence in healthcare — improving lives, strengthening families, and contributing to a healthier and brighter future for Pagadian City and nearby municipalities.</p>
+              </div>
+
+           
+
+              <div class="cta-section" data-aos="fade-up" data-aos-delay="300">
+                <a href="#services" class="btn-link">Browse our Services <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="image-container">
+              <img src="assets/img/about/vision.jpg" alt="About Us" class="img-fluid">
+           
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Skills Section -->
+    <!--section id="skills" class="skills section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="intro-content text-center mb-5" data-aos="fade-up" data-aos-delay="150">
+              <p class="lead-text">Expertise refined through years of dedicated practice and continuous learning</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-grid">
+          
+
+        <div class="certification-area mt-5" data-aos="fade-up" data-aos-delay="500">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="cert-content">
+                <h4 class="cert-title">Professional Certifications</h4>
+                <p class="cert-description">Continuous learning and professional development ensure that skills remain current with industry standards and emerging technologies.</p>
+                <div class="cert-list">
+                  <div class="cert-item">
+                    <i class="bi bi-award"></i>
+                    <span>Google UX Design Professional Certificate</span>
+                  </div>
+                  <div class="cert-item">
+                    <i class="bi bi-award"></i>
+                    <span>AWS Certified Solutions Architect</span>
+                  </div>
+                  <div class="cert-item">
+                    <i class="bi bi-award"></i>
+                    <span>Certified Agile Project Manager</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="tools-showcase">
+                <h5 class="tools-title">Essential Tools</h5>
+                <div class="tools-grid">
+                  <span class="tool-tag">Figma</span>
+                  <span class="tool-tag">React</span>
+                  <span class="tool-tag">Node.js</span>
+                  <span class="tool-tag">Docker</span>
+                  <span class="tool-tag">Sketch</span>
+                  <span class="tool-tag">TypeScript</span>
+                  <span class="tool-tag">MongoDB</span>
+                  <span class="tool-tag">Kubernetes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <!--/section><!-- /Skills Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section">
+
+
+        <div class="row justify-content-center mt-5">
+          <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="500">
+            <div class="achievement-badge">
+              <div class="badge-icon">
+                <i class="bi bi-award"></i>
+              </div>
+              <div class="badge-content">
+                <h4 class="badge-title">Industry Recognition</h4>
+                <p class="badge-text">Recognized for providing healtcare across Different Governments and Private Sectors of Pagadian City</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Stats Section -->
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <!-- FIRST ROW -->
+    <div class="row gy-4 justify-content-center">
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-1.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="150">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-2.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-3.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="250">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-4.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECOND ROW -->
+    <div class="row gy-4 justify-content-center mt-3">
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-5.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="350">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-6.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-3 col-md-3 col-6" data-aos="zoom-in" data-aos-delay="400">
+        <div class="client-item">
+          <img src="assets/img/clients/clients-7.png" class="img-fluid" alt="">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Services</h2>
+        
+      </div>
+
+    <!-- Featured Services Section -->
+    <section id="featured-services" class="featured-services section light-background">
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+  <div class="row g-4">
+  <p class="text-center fw-bold">Annual Dep-ed Medical Checkup</p>
+
+  <!-- Picture 1 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package A.png" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+
+    </div>
+  </div>
+
+  <!-- Picture 2 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package B.png" alt="Picture 2" class="img-fluid package-img" onclick="openImage(this.src)">
+    </div>
+  </div>
+
+  <!-- Picture 3 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package C.png" alt="Picture 3" class="img-fluid package-img" onclick="openImage(this.src)">
+    </div>
+  </div>
+
+  <!-- Picture 4 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package D.png" alt="Picture 4" class="img-fluid package-img" onclick="openImage(this.src)">
+    </div>
+  </div>
+</div>
+
+<br>
+
+<!-- Centered Bottom Row -->
+<div class="row g-4 justify-content-center">
+
+  <!-- Picture 5 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package E.png" alt="Picture 5" class="img-fluid package-img" onclick="openImage(this.src)">
+    </div>
+  </div>
+
+  <!-- Picture 6 -->
+  <div class="col-lg-3 col-md-6">
+    <div class="text-center">
+      <img src="assets/img/about/package F.png" alt="Picture 6" class="img-fluid package-img" onclick="openImage(this.src)">
+    </div>
+  </div>
+
+    <div class="row g-4">
+  <p class="text-center fw-bold">CT-Scan</p>
+
+  <!-- Picture 1 -->
+ 
+  <div class="ctscan-gallery">
+      <img src="assets/img/about/CT1.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/CT2.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/CT3.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+  </div>
+
+    <div class="row g-4">
+  <p class="text-center fw-bold">Laboratories</p>
+
+  <!-- Picture 1 -->
+ 
+  <div class="ctscan-gallery">
+      <img src="assets/img/about/lab1.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/lab2.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/lab3.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/lab4.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+      <img src="assets/img/about/lab5.jpg" alt="Picture 1" class="img-fluid package-img" onclick="openImage(this.src)">
+  
+  </div>
+
+
+      <!-- End Section Title -->
+
+      <!--div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-5">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-laptop"></i>
+              </div>
+              <h3>Web Development</h3>
+              <p>Crafting responsive, modern websites that deliver exceptional user experiences and drive business growth.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-brush"></i>
+              </div>
+              <h3>Brand Design</h3>
+              <p>Creating compelling visual identities that communicate your brand's essence and resonate with your audience.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <h3>Digital Marketing</h3>
+              <p>Strategic marketing solutions that amplify your reach and convert prospects into loyal customers.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-phone"></i>
+              </div>
+              <h3>Mobile Apps</h3>
+              <p>Native and cross-platform mobile applications that provide seamless functionality across all devices.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <h3>Cybersecurity</h3>
+              <p>Comprehensive security solutions to protect your digital assets and maintain customer trust.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item">
+              <div class="service-icon">
+                <i class="bi bi-people"></i>
+              </div>
+              <h3>Consulting</h3>
+              <p>Expert guidance and strategic insights to optimize your business processes and achieve sustainable growth.</p>
+              <a href="service-details.html" class="service-link">
+                <span>Learn More</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      <!--/div>
+
+    </section><!-- /Services Section -->
+
+    <!-- Testimonials Section -->
+    <!--section id="testimonials" class="testimonials section light-background">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="testimonial-slider swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 4000
+              },
+              "slidesPerView": 1,
+              "spaceBetween": 30,
+              "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+              },
+              "breakpoints": {
+                "768": {
+                  "slidesPerView": 2
+                },
+                "1200": {
+                  "slidesPerView": 3
+                }
+              }
+            }
+          </script>
+
+          <div class="swiper-wrapper">
+
+            <!-- Testimonial Slide 1 -->
+            <!--gdiv class="swiper-slide">
+              <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="200">
+                <div class="testimonial-header">
+                  <img src="assets/img/person/person-f-12.webp" alt="Client" class="img-fluid" loading="lazy">
+                  <div class="rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit sed eiusmod tempor.</p>
+                </div>
+                <div class="testimonial-footer">
+                  <h5>Jessica Martinez</h5>
+                  <span>UX Designer</span>
+                  <div class="quote-icon">
+                    <i class="bi bi-chat-quote-fill"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Testimonial Slide -->
+
+            <!-- Testimonial Slide 2 -->
+            <!--div class="swiper-slide">
+              <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="300">
+                <div class="testimonial-header">
+                  <img src="assets/img/person/person-m-8.webp" alt="Client" class="img-fluid" loading="lazy">
+                  <div class="rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa.</p>
+                </div>
+                <div class="testimonial-footer">
+                  <h5>David Rodriguez</h5>
+                  <span>Software Engineer</span>
+                  <div class="quote-icon">
+                    <i class="bi bi-chat-quote-fill"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Testimonial Slide -->
+
+            <!-- Testimonial Slide 3 -->
+            <!--div class="swiper-slide">
+              <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="400">
+                <div class="testimonial-header">
+                  <img src="assets/img/person/person-f-6.webp" alt="Client" class="img-fluid" loading="lazy">
+                  <div class="rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                </div>
+                <!--div class="testimonial-body">
+                  <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud.</p>
+                </div>
+                <div class="testimonial-footer">
+                  <h5>Amanda Wilson</h5>
+                  <span>Creative Director</span>
+                  <div class="quote-icon">
+                    <i class="bi bi-chat-quote-fill"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Testimonial Slide -->
+
+            <!-- Testimonial Slide 4 -->
+            <!--div class="swiper-slide">
+              <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="500">
+                <div class="testimonial-header">
+                  <img src="assets/img/person/person-m-12.webp" alt="Client" class="img-fluid" loading="lazy">
+                  <div class="rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis.</p>
+                </div>
+                <div class="testimonial-footer">
+                  <h5>Ryan Thompson</h5>
+                  <span>Business Analyst</span>
+                  <div class="quote-icon">
+                    <i class="bi bi-chat-quote-fill"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Testimonial Slide -->
+
+            <!-- Testimonial Slide 5 -->
+            <!--div class="swiper-slide">
+              <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="600">
+                <div class="testimonial-header">
+                  <img src="assets/img/person/person-f-10.webp" alt="Client" class="img-fluid" loading="lazy">
+                  <div class="rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.</p>
+                </div>
+                <div class="testimonial-footer">
+                  <h5>Rachel Chen</h5>
+                  <span>Project Manager</span>
+                  <div class="quote-icon">
+                    <i class="bi bi-chat-quote-fill"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Testimonial Slide -->
+
+          <!--/div>
+
+          <div class="swiper-navigation">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Meet the Doctors</h2>
+        <p>The Pillars of Providing Compassionate Services</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="isotope-layout" data-default-filter="*" data-layout="fitRows" data-sort="original-order">
+
+          
+          <div class="row gy-4 portfolio-grid isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc1.jpg" class="img-fluid" alt="Brand Identity" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc1.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-LAPAROSCOPIC SURGEON</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-web">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc2.jpg" class="img-fluid" alt="E-commerce Platform" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc2.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                    <h3>HH-RADIOLOGISTS</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-print">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc3.jpg" class="img-fluid" alt="Magazine Design" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc3.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                 <h3>HH-UROLOGISTS</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-motion">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc4.jpg" class="img-fluid" alt="Motion Graphics" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc4.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-NEPHROLOGISTS</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc5.jpg" class="img-fluid" alt="Logo Collection" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc5.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-NEUROSURGEON AND NEUROLOGISTS</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-web">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc6.jpg" class="img-fluid" alt="Mobile App Design" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc6.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-ADULT HEMATOLOGIST</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-print">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc7.jpg" class="img-fluid" alt="Packaging Design" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc7.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-ENDOCRINOLOGIST</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-motion">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc8.jpg" class="img-fluid" alt="Brand Animation" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc8.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-FAMILY MEDICINE-GERIARTRIC MEDICINE</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+<div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-motion">
+              <div class="portfolio-card">
+                <div class="image-container">
+                  <img src="assets/img/portfolio/doc9.jpg" class="img-fluid" alt="Brand Animation" loading="lazy">
+                  <div class="overlay">
+                    <div class="overlay-content">
+                      <a href="assets/img/portfolio/doc9.jpg" class="glightbox zoom-link">
+                        <i class="bi bi-zoom-in"></i>
+                      </a>
+                      <a href="portfolio-details.html" class="details-link" title="View Project Details">
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <h3>HH-PEDIATRICIANS WITH SPECIALTIES</h3>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+
+          </div><!-- End Portfolio Grid -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>Our Hardworking Team</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="member-card">
+              <div class="member-image-wrapper">
+                <img src="assets/img/person/person-f-1.jpg" class="img-fluid" alt="Team Member">
+              </div>
+              <div class="member-content">
+                <h4 class="member-name">Mr. Isma Namolata</h4>
+                <span class="member-role">HH IT Specialist</span>
+                <p class="member-bio">Meet Mr.Isma Ellioren Namolata, our IT Specialist, the go-to person whenever there's a technical issue</p>
+                <div class="member-socials">
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-facebook"></i></a>
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="member-card">
+              <div class="member-image-wrapper">
+                <img src="assets/img/person/person-f-2.jpg" class="img-fluid" alt="Team Member">
+              </div>
+              <div class="member-content">
+                <h4 class="member-name">Ms. Brezelda U. Jumalon</h4>
+                <span class="member-role">HH Chief & HR HEAD</span>
+                <p class="member-bio">Meet Ma’am Beth, the HH Chief & HR Head, responsible for managing human resources, employee welfare, recruitment, staff development, and workplace operations to maintain an efficient and productive organization.</p>
+                <div class="member-socials">
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-facebook"></i></a>
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-github"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="member-card">
+              <div class="member-image-wrapper">
+                <img src="assets/img/person/person-f-3.jpg" class="img-fluid" alt="Team Member">
+              </div>
+              <div class="member-content">
+                <h4 class="member-name">Mr. Amirodden Ladtingan
+                </h4>
+                <span class="member-role">HH-Radio Technologist</span>
+                <p class="member-bio">Meet Mr. Amirodden Ladtingan, the HH-Radio Technologist, known for his humble nature and dedication to providing accurate diagnostic imaging services while ensuring quality patient care and professional excellence.</p>
+                <div class="member-socials">
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="member-card">
+              <div class="member-image-wrapper">
+                <img src="assets/img/person/person-f-4.jpg" class="img-fluid" alt="Team Member">
+              </div>
+              <div class="member-content">
+                <h4 class="member-name">Ms.Nikki Bersales</h4>
+                <span class="member-role">HH-CSR Head</span>
+                <p class="member-bio">Meet Ms. Nikki Bersales, the HH-CSR Head, recognized for her approachable leadership and dedication to customer service, ensuring quality assistance, patient satisfaction, and smooth communication within the organization.</p>
+                <div class="member-socials">
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-github"></i></a>
+                  <a href="#"><i class="bi bi-stack-overflow"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Pricing Section -->
+    <!--section id="pricing" class="pricing section">
+
+      <!-- Section Title -->
+      <!--div class="container section-title" data-aos="fade-up">
+        <h2>Pricing</h2>
+        <p>Check our Pricing</p>
+      </div><!-- End Section Title -->
+
+      <!--div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="pricing-toggle-container mb-5" data-aos="zoom-in" data-aos-delay="150">
+          <div class="pricing-toggle d-inline-flex align-items-center gap-3 px-3 py-2 rounded-pill">
+            <span class="monthly active">Monthly</span>
+            <label class="switch m-0">
+              <input type="checkbox" aria-label="Toggle pricing">
+              <span class="slider"></span>
+            </label>
+            <span class="yearly">Yearly</span>
+          </div>
+          <p class="hint mt-3 mb-0 small">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
+        </div>
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <article class="price-card h-100">
+              <div class="card-head">
+                <span class="badge-title">Starter</span>
+                <h3 class="title">Lorem Dolor Sit</h3>
+                <p class="subtitle">Ut enim ad minim veniam quis nostrud exercitation ullamco laboris.</p>
+                <div class="price-wrap">
+                  <span class="price price-monthly"><sup>$</sup>12<span class="period">/mo</span></span>
+                  <span class="price price-yearly"><sup>$</sup>120<span class="period">/yr</span></span>
+                </div>
+              </div>
+
+              <ul class="feature-list list-unstyled mb-4">
+                <li><i class="bi bi-check-circle"></i> Lorem ipsum dolor amet</li>
+                <li><i class="bi bi-check-circle"></i> Consectetur adipiscing elit</li>
+                <li><i class="bi bi-check-circle"></i> Sed do eiusmod tempor</li>
+                <li class="muted"><i class="bi bi-dash-circle"></i> Incididunt ut labore</li>
+                <li class="muted"><i class="bi bi-dash-circle"></i> Dolore magna aliqua</li>
+              </ul>
+
+              <div class="cta">
+                <a href="#" class="btn btn-choose w-100">Get Started</a>
+              </div>
+            </article><!-- End Pricing Item -->
+          </div>
+
+          <!--div class="col-lg-4" data-aos="fade-up" data-aos-delay="250">
+            <article class="price-card featured h-100 position-relative">
+              <div class="ribbon"><i class="bi bi-star-fill"></i> Popular</div>
+
+              <div class="card-head">
+                <span class="badge-title">Pro</span>
+                <h3 class="title">Cras Aenean Quam</h3>
+                <p class="subtitle">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
+                <div class="price-wrap">
+                  <span class="price price-monthly"><sup>$</sup>29<span class="period">/mo</span></span>
+                  <span class="price price-yearly"><sup>$</sup>290<span class="period">/yr</span></span>
+                </div>
+              </div>
+
+              <ul class="feature-list list-unstyled mb-4">
+                <li><i class="bi bi-check-circle"></i> Excepteur sint occaecat</li>
+                <li><i class="bi bi-check-circle"></i> Cupidatat non proident</li>
+                <li><i class="bi bi-check-circle"></i> Sunt in culpa qui officia</li>
+                <li><i class="bi bi-check-circle"></i> Deserunt mollit anim id</li>
+                <li><i class="bi bi-check-circle"></i> Est laborum commodo</li>
+              </ul>
+
+              <div class="cta">
+                <a href="#" class="btn btn-choose w-100">Choose Pro</a>
+              </div>
+            </article><!-- End Pricing Item -->
+          </div>
+
+          <!--div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <article class="price-card h-100">
+              <div class="card-head">
+                <span class="badge-title">Business</span>
+                <h3 class="title">Porta Parturient</h3>
+                <p class="subtitle">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.</p>
+                <div class="price-wrap">
+                  <span class="price price-monthly"><sup>$</sup>59<span class="period">/mo</span></span>
+                  <span class="price price-yearly"><sup>$</sup>590<span class="period">/yr</span></span>
+                </div>
+              </div>
+
+              <ul class="feature-list list-unstyled mb-4">
+                <li><i class="bi bi-check-circle"></i> Quam nihil molestiae</li>
+                <li><i class="bi bi-check-circle"></i> Consequatur vel illum</li>
+                <li><i class="bi bi-check-circle"></i> Qui dolorem eum fugiat</li>
+                <li><i class="bi bi-check-circle"></i> Quis nostrum exercitationem</li>
+                <li><i class="bi bi-check-circle"></i> Ullam corporis suscipit</li>
+              </ul>
+
+              <div class="cta">
+                <a href="#" class="btn btn-choose w-100">Start Business</a>
+              </div>
+            </article><!-- End Pricing Item -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Pricing Section -->
+
+    <!-- Faq Section -->
+    <section id="faq" class="faq section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>F.A.Q</h2>
+        <p>Frequently Asked Questions</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row justify-content-center">
+          <div class="col-lg-9">
+
+            <div class="faq-wrapper">
+
+              <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="150">
+                <div class="faq-header">
+                  <span class="faq-number">01</span>
+                  <h4> What services does Hofileña Hospital offer?</h4>
+                  <div class="faq-toggle">
+                    <i class="bi bi-plus"></i>
+                    <i class="bi bi-dash"></i>
+                  </div>
+                </div>
+                <div class="faq-content">
+                  <div class="content-inner">
+                    <p>Hofileña Hospital provides a wide range of healthcare services, including Emergency Care, Outpatient Consultation, Laboratory Services, Radiology and Imaging, Pharmacy Services, Inpatient Care, Surgery, and Specialized Medical Services.</p>
+                  </div>
+                </div>
+              </div><!-- End FAQ Item -->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-header">
+                  <span class="faq-number">02</span>
+                  <h4>How long is the waiting time for appointments?</h4>
+                  <div class="faq-toggle">
+                    <i class="bi bi-plus"></i>
+                    <i class="bi bi-dash"></i>
+                  </div>
+                </div>
+                <div class="faq-content">
+                  <div class="content-inner">
+                    <p>Our Emergency Room operates 24 hours a day, 7 days a week. Outpatient clinics and other departments may have specific schedules. Please contact the hospital for updated clinic hours.</p>
+                  </div>
+                </div>
+              </div><!-- End FAQ Item -->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="250">
+                <div class="faq-header">
+                  <span class="faq-number">03</span>
+                  <h4>How can I schedule an appointment?</h4>
+                  <div class="faq-toggle">
+                    <i class="bi bi-plus"></i>
+                    <i class="bi bi-dash"></i>
+                  </div>
+                </div>
+                <div class="faq-content">
+                  <div class="content-inner">
+                    <p>Appointments may be scheduled by visiting the hospital, calling our reception desk, or through our official online channels, if available.</p>
+                  </div>
+                </div>
+              </div><!-- End FAQ Item -->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-header">
+                  <span class="faq-number">04</span>
+                  <h4>Do you accept health insurance and HMOs?</h4>
+                  <div class="faq-toggle">
+                    <i class="bi bi-plus"></i>
+                    <i class="bi bi-dash"></i>
+                  </div>
+                </div>
+                <div class="faq-content">
+                  <div class="content-inner">
+                    <p>Yes. Hofileña Hospital accepts selected health insurance providers and HMOs. Please contact our billing department to verify your coverage.</p>
+                  </div>
+                </div>
+              </div><!-- End FAQ Item -->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="350">
+                <div class="faq-header">
+                  <span class="faq-number">05</span>
+                  <h4>What should I bring during my hospital visit?</h4>
+                  <div class="faq-toggle">
+                    <i class="bi bi-plus"></i>
+                    <i class="bi bi-dash"></i>
+                  </div>
+                </div>
+                <div class="faq-content">
+                  <div class="content-inner">
+                    <p>Please bring a valid ID, referral documents (if any), previous medical records, insurance or HMO cards, and any prescribed medications you are currently taking.</p>
+                  </div>
+                </div>
+              </div><!-- End FAQ Item -->
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Faq Section -->
+
+    <!-- Contact Section -->
+    <!--section id="contact" class="contact section">
+      <!-- Section Title -->
+      <!--div class="container section-title" data-aos="fade-up">
+        <h2>Book Appointment now</h2>
+        <p>Need Help? Contact Us</p>
+      </div><!-- End Section Title -->
+
+      <!--div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-stretch">
+          <div class="col-lg-7 order-lg-1 order-2" data-aos="fade-right" data-aos-delay="200">
+            <div class="contact-form-container">
+              <div class="form-intro">
+                <h2>Let's Start a Conversation</h2>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.</p>
+              </div>
+
+              <form action="forms/contact.php" method="post" class="php-email-form contact-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-field">
+                      <input type="text" name="name" class="form-input" id="userName" placeholder="Your Name" required="">
+                      <label for="userName" class="field-label">Name</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-field">
+                      <input type="email" class="form-input" name="email" id="userEmail" placeholder="Your Email" required="">
+                      <label for="userEmail" class="field-label">Email</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-field">
+                      <input type="tel" class="form-input" name="phone" id="userPhone" placeholder="Your Phone">
+                      <label for="userPhone" class="field-label">Phone</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-field">
+                      <input type="text" class="form-input" name="subject" id="messageSubject" placeholder="Subject" required="">
+                      <label for="messageSubject" class="field-label">Subject</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field message-field">
+                  <textarea class="form-input message-input" name="message" id="userMessage" rows="5" placeholder="Tell us about your project" required=""></textarea>
+                  <label for="userMessage" class="field-label">Message</label>
+                </div>
+
+                <div class="my-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+
+                <button type="submit" class="send-button">
+                  Send Message
+                  <span class="button-arrow">→</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-lg-5 order-lg-2 order-1" data-aos="fade-left" data-aos-delay="300">
+            <div class="contact-sidebar">
+              <div class="contact-header">
+                <h3>Get in Touch</h3>
+                <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud.</p>
+              </div>
+
+              <div class="contact-methods">
+                <div class="contact-method" data-aos="fade-in" data-aos-delay="350">
+                  <div class="contact-icon">
+                    <i class="bi bi-geo-alt"></i>
+                  </div>
+                  <div class="contact-details">
+                    <span class="method-label">Address</span>
+                    <p>892 Park Avenue, Manhattan<br>New York, NY 10075</p>
+                  </div>
+                </div>
+
+                <div class="contact-method" data-aos="fade-in" data-aos-delay="400">
+                  <div class="contact-icon">
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="contact-details">
+                    <span class="method-label">Email</span>
+                    <p>hello@businessdemo.com</p>
+                  </div>
+                </div>
+
+                <div class="contact-method" data-aos="fade-in" data-aos-delay="450">
+                  <div class="contact-icon">
+                    <i class="bi bi-telephone"></i>
+                  </div>
+                  <div class="contact-details">
+                    <span class="method-label">Phone</span>
+                    <p>+1 (555) 789-2468</p>
+                  </div>
+                </div>
+
+                <div class="contact-method" data-aos="fade-in" data-aos-delay="500">
+                  <div class="contact-icon">
+                    <i class="bi bi-clock"></i>
+                  </div>
+                  <div class="contact-details">
+                    <span class="method-label">Hours</span>
+                    <p>Monday - Friday: 9AM - 6PM<br>Saturday: 10AM - 4PM</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="connect-section" data-aos="fade-up" data-aos-delay="550">
+                <span class="connect-label">Connect with us</span>
+                <div class="social-links">
+                  <a href="#" class="social-link">
+                    <i class="bi bi-linkedin"></i>
+                  </a>
+                  <a href="#" class="social-link">
+                    <i class="bi bi-twitter-x"></i>
+                  </a>
+                  <a href="#" class="social-link">
+                    <i class="bi bi-instagram"></i>
+                  </a>
+                  <a href="#" class="social-link">
+                    <i class="bi bi-facebook"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer light-background">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+            <form action="forms/newsletter.php" method="post" class="php-email-form">
+              <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">Hofileña Hospital</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p> F.s Pajares St., Gatas Distric, Pagadian City, </p>
+            <p>Zamboanga del Sur, Pagadian City, Philippines, 7016</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>0933 823 9449</span></p>
+            <p><strong>Email:</strong> <span>hofilena.hr@gmail.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Follow Us</h4>
+          <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Hofileña Hospital</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">ITU-JLDEE HOFILEÑA HOSPITAL</a> | <a href="https://bootstrapmade.com/tools/">DevTools</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
+<style>
+.package-img {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.package-img:hover {
+  transform: scale(1.05);
+}
+</style>
+
+<script>
+function openVideoPopup() {
+    const popup = document.getElementById("videoPopup");
+    const video = document.getElementById("ourStoryVideo");
+
+    // Show popup
+    popup.style.display = "flex";
+
+    // Restart and play video
+    video.currentTime = 0;
+    video.play();
+}
+
+function closeVideoPopup() {
+    const popup = document.getElementById("videoPopup");
+    const video = document.getElementById("ourStoryVideo");
+
+    // Stop video
+    video.pause();
+    video.currentTime = 0;
+
+    // Hide popup
+    popup.style.display = "none";
+}
+
+// Close popup when clicking outside the video
+document.getElementById("videoPopup").addEventListener("click", function (e) {
+    if (e.target === this) {
+        closeVideoPopup();
+    }
+});
+
+// Close popup when video ends
+document.getElementById("ourStoryVideo").addEventListener("ended", function () {
+    closeVideoPopup();
+});
+</script>
+
+<style>
+/* Fullscreen overlay */
+.video-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup container */
+.video-popup-content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    animation: zoomIn 0.3s ease;
+}
+
+/* Video styling */
+.video-popup-content video {
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 12px;
+    background: #000;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Close button */
+.close-popup {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    color: #fff;
+    font-size: 42px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Zoom animation */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+</style>
